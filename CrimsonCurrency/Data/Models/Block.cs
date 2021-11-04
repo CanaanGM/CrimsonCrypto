@@ -12,7 +12,7 @@ namespace CrimsonCurrency.Data.Models
         public DateTime Timestamp { get; set; }
         public string LastHash { get; set; }
         public string CurrentHash { get; set; }
-        public List<Block> Data { get; set; }
+        public List<Block> Data { get; set; } // not gonna be an array but it is for now 
 
 
         public Block(){}
@@ -48,7 +48,7 @@ namespace CrimsonCurrency.Data.Models
             => ComputeSha256Hash($"{block.Timestamp}{block.LastHash}{block.Data}");
 
 
-        private static string ComputeSha256Hash(string rawData)
+        public static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())

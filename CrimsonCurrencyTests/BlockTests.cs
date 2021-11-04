@@ -62,5 +62,9 @@ namespace CrimsonCurrencyTests
 
             Assert.AreEqual(Block.HashBlock(block), block.CurrentHash);
         }
+
+        [TestMethod]
+        public void AssertSameHashIsGeneratedForSamePhrase()
+         => Assert.AreEqual(Block.ComputeSha256Hash("Zoro"), Block.ComputeSha256Hash("Zoro"));
     }
 }
