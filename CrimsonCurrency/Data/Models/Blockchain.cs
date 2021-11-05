@@ -15,6 +15,14 @@ namespace CrimsonCurrency.Data.Models
             Chain = new List<Block>() { Block.Genesis() };
         }
 
+
+        public Block AddBlock(List<Block> data)
+        {
+            var newBlock = Block.MineBlock(Chain[Chain.Count - 1], data);
+            Chain.Add(newBlock);
+            return newBlock;
+        }
+
         public bool IsValidChain(List<Block> chain) 
         {
             /// cheks the first block and validate it against the genesis block
@@ -31,6 +39,24 @@ namespace CrimsonCurrency.Data.Models
                     )
                  return false;
             }
+            return true;
+        }
+
+
+        public bool ReplaceChain(List<Block> chain)
+        {
+            if (chain.Count <= Chain.Count)
+            {
+                Console.WriteLine("Recieved chain isn't longer than the existing one . . .");
+                return false;
+            }
+            if (!IsValidChain(chain)) { 
+                    Console.WriteLine("Not a valid chain");
+                return false;
+            }
+
+            Console.WriteLine("Replacing the Current chain to the recieved one");
+            Chain = chain;
             return true;
         }
     }
