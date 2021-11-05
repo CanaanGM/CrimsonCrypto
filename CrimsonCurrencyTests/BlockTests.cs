@@ -10,25 +10,25 @@ namespace CrimsonCurrencyTests
     public class BlockTests
     {
         public Block block { get; set; }
-        public List<Block> Data { get; set; } = new List<Block> { Block.Genesis() };
+        public Dataholder Data { get; set; } = new Dataholder();
         public Block LastBlock { get; set; }  
         public Block CurrentBlock { get; set; } 
 
         [TestMethod]
         public void AssertGenesisBlockSameAsFirstBlockInBlock()
         {
-            block = new Block();
-            block.Data = new List<Block> {Block.Genesis() };
-            Assert.AreEqual(block.Data[0].CurrentHash, Block.Genesis().CurrentHash);
+            block = Block.MineBlock(Block.Genesis(), new Dataholder());
+            block.Data = new Dataholder() ;
+            Assert.AreEqual(block.LastHash, Block.Genesis().CurrentHash);
         }
 
         [TestMethod]
         public void AssertGenesisNotEqualTameredGenesisInBlock()
         {
-            block = new Block();
-            block.Data = new List<Block> { Block.Genesis() };
-            block.Data[0].CurrentHash = "";
-            Assert.AreNotEqual(block.Data[0].CurrentHash, Block.Genesis().CurrentHash);
+            block = Block.MineBlock(Block.Genesis(), new Dataholder());
+            block.Data = new Dataholder();
+            block.LastHash = "";
+            Assert.AreNotEqual(block.LastHash, Block.Genesis().CurrentHash);
         }
 
 
@@ -37,13 +37,8 @@ namespace CrimsonCurrencyTests
         [TestMethod]
         public void AssertCreatedHashIsSameAsCurrentHashForBlock()
         {
-            block = new Block(
-                System.DateTime.UtcNow,
-                Block.Genesis().CurrentHash,
-                Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash,Data ),
-                Data
-                );
-            Data.Add(block);
+            block = block = Block.MineBlock(Block.Genesis(), new Dataholder());
+
             var block2 = Block.MineBlock(block, Data);
 
             Assert.AreEqual(block2.LastHash, block.CurrentHash);
@@ -53,12 +48,7 @@ namespace CrimsonCurrencyTests
         [TestMethod]
         public void AssertHashBlockEqualCurrenthashForSameBlock()
         {
-            block = new Block(
-                System.DateTime.UtcNow,
-                Block.Genesis().CurrentHash,
-                Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, Data),
-                Data
-            );
+            block = block = Block.MineBlock(Block.Genesis(), new Dataholder());
 
             Assert.AreEqual(Block.HashBlock(block), block.CurrentHash);
         }

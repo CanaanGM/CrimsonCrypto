@@ -23,14 +23,14 @@ namespace CrimsonCurrencyTests
             bc.Chain.Add(new Block(
                System.DateTime.UtcNow,
                bc.Chain[bc.Chain.Count - 1].CurrentHash,
-               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc.Chain),
-               bc.Chain
+               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc.Chain[bc.Chain.Count - 1].Data),
+               bc.Chain[bc.Chain.Count - 1].Data
                ));
             bc2.Chain.Add(new Block(
                System.DateTime.UtcNow,
                bc2.Chain[bc2.Chain.Count - 1].CurrentHash,
-               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc2.Chain),
-               bc2.Chain
+               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc2.Chain[bc2.Chain.Count - 1].Data),
+               bc2.Chain[bc2.Chain.Count - 1].Data
                ));
             //not sure which is best constructing a new Block like above or like this 
             //bc2.Chain.Add(
@@ -52,8 +52,8 @@ namespace CrimsonCurrencyTests
             var temp =new Block(
                System.DateTime.UtcNow,
                bc.Chain[bc.Chain.Count - 1].CurrentHash,
-               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc.Chain),
-               bc.Chain
+               Block.Hash(System.DateTime.UtcNow, Block.Genesis().CurrentHash, bc.Chain[bc.Chain.Count - 1].Data),
+               bc.Chain[bc.Chain.Count - 1].Data
                );
             bc.AddBlock(temp.Data);
             Assert.AreEqual(bc.Chain[bc.Chain.Count -1].LastHash

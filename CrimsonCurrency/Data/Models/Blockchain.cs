@@ -16,7 +16,7 @@ namespace CrimsonCurrency.Data.Models
         }
 
 
-        public Block AddBlock(List<Block> data)
+        public Block AddBlock(Dataholder data)
         {
             var newBlock = Block.MineBlock(Chain[Chain.Count - 1], data);
             Chain.Add(newBlock);
