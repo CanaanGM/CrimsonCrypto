@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace CrimsonCurrency.API
@@ -44,6 +46,12 @@ namespace CrimsonCurrency.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CrimsonCurrency.API v1"));
             }
 
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+            };
+
+            app.UseWebSockets(webSocketOptions);
             app.UseRouting();
 
             app.UseAuthorization();
