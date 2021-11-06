@@ -12,25 +12,25 @@ namespace CrimsonCurrency.Data.Models
         public DateTime Timestamp { get; set; }
         public string LastHash { get; set; }
         public string CurrentHash { get; set; }
-        public List<Block> Data { get; set; } // not gonna be an array but it is for now 
+        public Dataholder Data { get; set; } // not gonna be an array but it is for now 
 
 
         public Block(){}
 
-        public Block(DateTime timestamp, string lastHash, string hash, List<Block> data)
+        public Block(DateTime timestamp, string lastHash, string hash, Dataholder data)
         {
             Timestamp = timestamp;
             LastHash = lastHash ?? throw new ArgumentNullException(nameof(lastHash));
             CurrentHash = hash ?? throw new ArgumentNullException(nameof(hash));
-            Data = data ?? new List<Block>();
+            Data = data ?? new Dataholder();
         }
 
         // the first block to ever exist
-        public static Block Genesis() => new Block(DateTime.UtcNow, "------", "f1r57-h45h", new List<Block>());
+        public static Block Genesis() => new Block(DateTime.UtcNow, "------", "f1r57-h45h", new Dataholder { Name="Genesis", Message="***###***"});
 
         //create a new block thru mining ?? 
 
-        public static Block MineBlock(Block lastBlock, List<Block> data)
+        public static Block MineBlock(Block lastBlock, Dataholder data)
         {
             var timestamp = DateTime.UtcNow;
             var lastHash = lastBlock.CurrentHash;
@@ -40,7 +40,7 @@ namespace CrimsonCurrency.Data.Models
         }
 
 
-        public static string Hash(DateTime timeStamp, string lasthash, List<Block> data)
+        public static string Hash(DateTime timeStamp, string lasthash, Dataholder data)
             => ComputeSha256Hash($"{timeStamp}{lasthash}{data}");
 
 
@@ -65,5 +65,11 @@ namespace CrimsonCurrency.Data.Models
                 return builder.ToString();
             }
         }
+    }
+
+    public class Dataholder
+    {
+        public string Name { get; set; }
+        public string Message { get; set; }
     }
 }
